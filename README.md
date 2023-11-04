@@ -67,10 +67,18 @@ let data = cachedData.or(freshData, when: isCacheExpired) // Returns `freshData`
 
 ```swift
 struct FeatureFlag: Choosable {
-let isEnabled: Bool
+    let isEnabled: Bool
 }
 
-let feature = disabledFeature.or(enabledFeature, when: user.isPremium) // Returns `enabledFeature` if `user.isPremium` is true
+let featureA = FeatureFlag(isEnabled: true)
+let featureB = FeatureFlag(isEnabled: false)
+let featureC = FeatureFlag(isEnabled: false)
+
+// Given a condition, choose `featureA`, `featureB` or `featureC`.
+// In this case, `isEnabled` flag is true, so `featureA` will be chosen.
+let activeFeature = featureA
+    .or(featureB, when: featureA.isEnabled)
+    .or(featureC, when: featureB.isEnabled)
 ```
 
 #### Adaptive UI Elements
