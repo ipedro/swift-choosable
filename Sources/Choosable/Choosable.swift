@@ -78,6 +78,21 @@ public extension Choosable {
     func or(_ alternative: Self, when conditions: Bool...) -> Self {
         conditions.contains { $0 == false } ? self : alternative
     }
+
+    /// Returns either the current object or an alternative based on the evaluation of boolean conditions.
+    ///
+    /// This method takes a variable number of boolean conditions and checks them.
+    /// If any condition is false, it returns `self`, the current object; otherwise, it returns
+    /// the alternative object. The conditions are evaluated in order, and as soon as a false
+    /// condition is found, the evaluation stops.
+    ///
+    /// - Parameters:
+    ///   - alternative: The object to return if all conditions evaluate to true.
+    ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    /// - Returns: The original object if any condition is false; otherwise, the alternative.
+    func when(_ conditions: Bool..., alternative: () -> Self) -> Self {
+        conditions.contains { $0 == false } ? self : alternative()
+    }
 }
 
 // MARK: - Primitive Data Types Conformance
@@ -144,13 +159,13 @@ public extension View {
     /// condition is found, the evaluation stops.
     ///
     /// - Parameters:
+    ///   - alternative: The view to return if all conditions evaluate to true.
     ///   - conditions: A variadic parameter that takes a list of boolean conditions.
-    ///   - alternative: A view builder that returns if all conditions evaluate to true.
     /// - Returns: The original view if any condition is false; otherwise, the alternative.
     @ViewBuilder
-    func except<V>(when conditions: Bool..., @ViewBuilder alternative: () -> V) -> _ConditionalContent<Self, V> where V: View {
+    func or<V>(_ alternative: V, when conditions: Bool...) -> _ConditionalContent<Self, V> where V: View {
         if conditions.contains(where: { $0 == false }) { self }
-        else { alternative() }
+        else { alternative }
     }
 
     /// Returns either the current view or an alternative based on the evaluation of boolean conditions.
@@ -161,13 +176,13 @@ public extension View {
     /// condition is found, the evaluation stops.
     ///
     /// - Parameters:
-    ///   - alternative: The view to return if all conditions evaluate to true.
     ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    ///   - alternative: A view builder that returns if all conditions evaluate to true.
     /// - Returns: The original view if any condition is false; otherwise, the alternative.
     @ViewBuilder
-    func or<V>(_ alternative: V, when conditions: Bool...) -> _ConditionalContent<Self, V> where V: View {
+    func when<V>(_ conditions: Bool..., @ViewBuilder alternative: () -> V) -> _ConditionalContent<Self, V> where V: View {
         if conditions.contains(where: { $0 == false }) { self }
-        else { alternative }
+        else { alternative() }
     }
 }
 
@@ -187,6 +202,22 @@ public extension Shape {
     func or<S>(_ alternative: S, when conditions: Bool...) -> AnyShape where S: Shape {
         if conditions.contains(where: { $0 == false }) { return AnyShape(self) }
         else { return AnyShape(alternative) }
+    }
+
+    /// Returns either the current shape or an alternative based on the evaluation of boolean conditions.
+    ///
+    /// This method takes a variable number of boolean conditions and checks them.
+    /// If any condition is false, it returns `self`, the current shape; otherwise, it returns
+    /// the alternative shape. The conditions are evaluated in order, and as soon as a false
+    /// condition is found, the evaluation stops.
+    ///
+    /// - Parameters:
+    ///   - alternative: The shape to return if all conditions evaluate to true.
+    ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    /// - Returns: The original shape if any condition is false; otherwise, the alternative.
+    func when<S>(_ conditions: Bool..., alternative: () -> S) -> AnyShape where S: Shape {
+        if conditions.contains(where: { $0 == false }) { return AnyShape(self) }
+        else { return AnyShape(alternative()) }
     }
 }
 
