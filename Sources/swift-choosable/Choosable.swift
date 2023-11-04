@@ -148,7 +148,7 @@ public extension View {
     ///   - alternative: A view builder that returns if all conditions evaluate to true.
     /// - Returns: The original view if any condition is false; otherwise, the alternative.
     @ViewBuilder
-    func or<V>(when conditions: Bool..., @ViewBuilder alternative: () -> V) -> _ConditionalContent<Self, V> where V: View {
+    func when<V>(_ conditions: Bool..., @ViewBuilder alternative: () -> V) -> _ConditionalContent<Self, V> where V: View {
         if conditions.contains(where: { $0 == false }) { self }
         else { alternative() }
     }
