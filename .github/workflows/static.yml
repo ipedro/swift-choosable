@@ -39,9 +39,9 @@ jobs:
             -destination 'generic/platform=iOS';
           $(xcrun --find docc) process-archive \
             transform-for-static-hosting /tmp/docbuild/Build/Products/Debug-iphoneos/Choosable.doccarchive \
-            --hosting-base-path Choosable \
+            --hosting-base-path swift-choosable \
             --output-path docs;
-          echo "<script>window.location.href += \"/documentation/choosable\"</script>" > docs/index.html;
+          echo "<script>window.location.href += \"/documentation/swift-choosable\"</script>" > docs/index.html;
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
