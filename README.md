@@ -1,5 +1,12 @@
 # Choosable
 
+![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)
+![Xcode 15.0+](https://img.shields.io/badge/Xcode-15.0+-blue.svg)
+![iOS 10.0+](https://img.shields.io/badge/iOS-10.0+-lightgrey.svg)
+![macOS 10.14+](https://img.shields.io/badge/macOS-10.14+-lightgrey.svg)
+![tvOS 10.0+](https://img.shields.io/badge/tvOS-10.0+-lightgrey.svg)
+![watchOS 3.0+](https://img.shields.io/badge/watchOS-3.0+-lightgrey.svg)
+
 `Choosable` is a Swift protocol designed to empower objects with context-aware capabilities, allowing them to respond dynamically to conditions. By adopting `Choosable`, any Swift type can elegantly choose between itself and an alternative based on the truth value of given conditions.
 
 This flexibility opens the door to cleaner, more readable conditional logic throughout your Swift projects—from feature flagging to adaptive UI elements, `Choosable` can streamline the way you handle binary decisions.
@@ -10,15 +17,6 @@ This flexibility opens the door to cleaner, more readable conditional logic thro
 - 🔍 **Context-Aware**: Make decisions based on runtime conditions.
 - ✅ **Type-agnostic**: Works with any type, including custom types.
 - 📦 **No External Dependencies**: Easy to integrate into any project.
-
-## Requirements
-
-![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)
-![Xcode 15.0+](https://img.shields.io/badge/Xcode-15.0+-blue.svg)
-![iOS 10.0+](https://img.shields.io/badge/iOS-10.0+-lightgrey.svg)
-![macOS 10.14+](https://img.shields.io/badge/macOS-10.14+-lightgrey.svg)
-![tvOS 10.0+](https://img.shields.io/badge/tvOS-10.0+-lightgrey.svg)
-![watchOS 3.0+](https://img.shields.io/badge/watchOS-3.0+-lightgrey.svg)
 
 ## Installation
 
