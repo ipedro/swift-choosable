@@ -229,12 +229,12 @@ public struct AnyShape: Shape {
         shape.path(in: rect)
     }
 
-    @available(iOS 17.0, *)
+    @available(iOS 17.0, macOS 14.0, tvOS 17.0, watchOS 10.0, *)
     public var layoutDirectionBehavior: LayoutDirectionBehavior {
         shape.layoutDirectionBehavior
     }
 
-    @available(iOS 16.0, *)
+    @available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
     public func sizeThatFits(_ proposal: ProposedViewSize) -> CGSize {
         shape.sizeThatFits(proposal)
     }
