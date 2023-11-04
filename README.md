@@ -36,7 +36,7 @@ Integrating `Choosable` into your types is straightforward:
 extension MyType: Choosable {}
 ```
 
-Once conformed, the `choose(_:when:)` method is available to elegantly handle conditional logic:
+Once conformed, the `or(_:when:)` method is available to elegantly handle conditional logic:
 
 ```swift
 let item = myDefaultItem.or(anotherItem, when: someCondition)
