@@ -1,7 +1,7 @@
 # Choosable
 [![License](https://img.shields.io/github/license/ipedro/swift-choosable)](https://github.com/ipedro/swift-choosable/blob/main/LICENSE) 
 ![Latest Version](https://img.shields.io/github/v/tag/ipedro/swift-choosable?label=Swift%20Package&sort=semver)
-![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)
+![Swift 5.7+](https://img.shields.io/badge/Swift-5.9+-orange.svg)
 
 ![iOS 10.0+](https://img.shields.io/badge/iOS-10.0+-lightblue.svg)
 ![macOS 10.14+](https://img.shields.io/badge/macOS-10.14+-lightblue.svg)
