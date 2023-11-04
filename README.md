@@ -1,41 +1,112 @@
 # Choosable
 
-`Choosable` is a protocol that provides context-aware behavior to an object.
-It allows an object to adapt its state or return different content based on a set of conditions.
+`Choosable` is a Swift protocol designed to empower objects with context-aware capabilities, allowing them to respond dynamically to conditions. By adopting `Choosable`, any Swift type can elegantly choose between itself and an alternative based on the truth value of given conditions.
 
-By conforming to `Choosable`, any type gains the ability to evaluate one or more conditions
-and, based on their values, return the original instance or an alternative. This can be useful
-in many situations where you need to toggle between two states, values, or contents
-depending on certain conditions at runtime.
+This flexibility opens the door to cleaner, more readable conditional logic throughout your Swift projects—from feature flagging to adaptive UI elements, `Choosable` can streamline the way you handle binary decisions.
 
-## Usage Examples:
+## Features
+
+- 🔄 **Toggle Behavior**: Seamlessly switch between values or states.
+- 🔍 **Context-Aware**: Make decisions based on runtime conditions.
+- ✅ **Type-agnostic**: Works with any type, including custom types.
+- 📦 **No External Dependencies**: Easy to integrate into any project.
+
+## Requirements
+
+![Swift 5.9+](https://img.shields.io/badge/Swift-5.9+-orange.svg)
+![Xcode 15.0+](https://img.shields.io/badge/Xcode-15.0+-blue.svg)
+![iOS 10.0+](https://img.shields.io/badge/iOS-10.0+-lightgrey.svg)
+![macOS 10.14+](https://img.shields.io/badge/macOS-10.14+-lightgrey.svg)
+![tvOS 10.0+](https://img.shields.io/badge/tvOS-10.0+-lightgrey.svg)
+![watchOS 3.0+](https://img.shields.io/badge/watchOS-3.0+-lightgrey.svg)
+
+## Installation
+
+### Swift Package Manager
+
+You can add `Choosable` to your project via Swift Package Manager, by adding the following to your `Package.swift` file in the `dependencies` array:
 
 ```swift
-// For primitive types
-let chosenNumber = 42.or(100, when: false) // Returns 42
+.package(url: "https://github.com/ipedro/swift-choosable.git", .upToNextMajor(from: "1.0.0"))
+```
 
-// For optional types
-let optionalString: String? = "Hello"
-let defaultString = "Default"
-let chosenString = optionalString.or(defaultString, when: optionalString == nil) // Returns "Hello"
+## Usage
 
-// For collections
-let primaryColors = ["Red", "Yellow", "Blue"]
-let secondaryColors = ["Green", "Purple", "Orange"]
-let chosenColors = primaryColors.or(secondaryColors, when: primaryColors.isEmpty) // Returns primaryColors
+Integrating `Choosable` into your types is straightforward:
 
-// Your types
+```swift
+extension MyType: Choosable {}
+```
+
+Once conformed, the `choose(_:when:)` method is available to elegantly handle conditional logic:
+
+```swift
+let item = myDefaultItem.or(anotherItem, when: someCondition)
+```
+
+### Examples
+
+#### Primitives
+
+```swift
+let discount = 0.0.or(15.0, when: isHolidaySeason) // Returns 15.0 if `isHolidaySeason` is true
+```
+
+#### Optionals
+
+```swift
+let user = currentUser.or(defaultUser, when: currentUser == nil) // Returns `defaultUser` if `currentUser` is nil
+```
+
+#### Collections
+
+```swift
+let data = cachedData.or(freshData, when: isCacheExpired) // Returns `freshData` if `isCacheExpired` is true
+```
+
+#### Custom Types
+
+```swift
 struct FeatureFlag: Choosable {
-    let isEnabled: Bool
+let isEnabled: Bool
 }
 
-let featureA = FeatureFlag(isEnabled: true)
-let featureB = FeatureFlag(isEnabled: true)
-let featureC = FeatureFlag(isEnabled: false)
-
-// Given a condition, choose `featureA`, `featureB` or `featureC`.
-// In this case, `isEnabled` flag is true for both A and C, so `featureC` will be chosen.
-let activeFeature: FeatureFlag = featureA
-    .or(featureB, when: featureA.isEnabled)
-    .or(featureC, when: featureB.isEnabled)
+let feature = disabledFeature.or(enabledFeature, when: user.isPremium) // Returns `enabledFeature` if `user.isPremium` is true
 ```
+
+#### Adaptive UI Elements
+
+```swift
+import SwiftUI
+
+struct AdaptiveTextColor: View {
+    @State 
+    private var isSelected: Bool = false
+    
+    @Environment(\.isEnabled)
+    private var isEnabled
+
+    var body: some View {
+        Text("Hello, Choosable!")
+            .foregroundColor(Color.black
+                .or(Color.white, when: isSelected)
+                .or(Color.gray, when: !isEnabled)
+            )
+            .background { Color.red }
+    }
+}
+
+struct AdaptiveFontStyle: View {
+    @State 
+    private var isHorizontal: Bool = false
+
+    var body: some View {
+        Text("Dynamic Font Size")
+            .font(.body.or(.largeTitle, when: isHorizontal))
+        }
+    }
+```
+
+## License
+
+`Choosable` is released under the MIT license. See [LICENSE](LICENSE) for details.

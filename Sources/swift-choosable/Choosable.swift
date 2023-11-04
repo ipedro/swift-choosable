@@ -30,21 +30,24 @@ import Foundation
 ///
 /// ## Usage Examples:
 ///
+/// For primitive types:
 /// ```
-/// // For primitive types
 /// let chosenNumber = 42.or(100, when: false) // Returns 42
+/// ```
 ///
-/// // For optional types
+/// For optional types:
+/// ```
 /// let optionalString: String? = "Hello"
 /// let defaultString = "Default"
 /// let chosenString = optionalString.or(defaultString, when: optionalString == nil) // Returns "Hello"
-///
-/// // For collections
+/// ```
+/// For collections:
+/// ```
 /// let primaryColors = ["Red", "Yellow", "Blue"]
 /// let secondaryColors = ["Green", "Purple", "Orange"]
 /// let chosenColors = primaryColors.or(secondaryColors, when: primaryColors.isEmpty) // Returns primaryColors
-/// ```/// Usage:
-///
+/// ```
+/// Custom types:
 /// ```
 /// struct FeatureFlag: Choosable {
 ///     let isEnabled: Bool
@@ -57,6 +60,7 @@ import Foundation
 /// // In this case, `isEnabled` flag is true, so `featureA` will be chosen.
 /// let activeFeature = featureA.or(featureB, when: featureA.isEnabled)
 /// ```
+///
 public protocol Choosable {}
 
 public extension Choosable {
