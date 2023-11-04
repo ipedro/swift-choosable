@@ -78,21 +78,6 @@ public extension Choosable {
     func or(_ alternative: Self, when conditions: Bool...) -> Self {
         conditions.contains { $0 == false } ? self : alternative
     }
-
-    /// Returns either the current object or an alternative based on the evaluation of boolean conditions.
-    ///
-    /// This method takes a variable number of boolean conditions and checks them.
-    /// If any condition is false, it returns `self`, the current object; otherwise, it returns
-    /// the alternative object. The conditions are evaluated in order, and as soon as a false
-    /// condition is found, the evaluation stops.
-    ///
-    /// - Parameters:
-    ///   - alternative: The object to return if all conditions evaluate to true.
-    ///   - condition: A closure that returns a boolean value.
-    /// - Returns: The original object if any condition is false; otherwise, the alternative.
-    func or(_ alternative: Self, when condition: () -> Bool) -> Self {
-        condition() ? alternative : self
-    }
 }
 
 // MARK: - Primitive Data Types Conformance
@@ -159,29 +144,28 @@ public extension View {
     /// condition is found, the evaluation stops.
     ///
     /// - Parameters:
-    ///   - alternative: The view to return if all conditions evaluate to true.
     ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    ///   - alternative: A view builder that returns if all conditions evaluate to true.
     /// - Returns: The original view if any condition is false; otherwise, the alternative.
-    @MainActor @ViewBuilder
-    func or<V>(_ alternative: V, when conditions: Bool...) -> _ConditionalContent<Self, V> where V: View {
+    @ViewBuilder
+    func or<V>(when conditions: Bool..., @ViewBuilder alternative: () -> V) -> _ConditionalContent<Self, V> where V: View {
         if conditions.contains(where: { $0 == false }) { self }
-        else { alternative }
+        else { alternative() }
     }
-
     /// Returns either the current view or an alternative based on the evaluation of boolean conditions.
     ///
     /// This method takes a variable number of boolean conditions and checks them.
-    /// If the condition is false, it returns `self`, the current view; otherwise, it returns
+    /// If any condition is false, it returns `self`, the current view; otherwise, it returns
     /// the alternative view. The conditions are evaluated in order, and as soon as a false
     /// condition is found, the evaluation stops.
     ///
     /// - Parameters:
-    ///   - alternative: The view to return if the condition closure evaluates to true.
-    ///   - condition: A closure that returns a boolean value.
-    /// - Returns: The original view if the condition is false; otherwise, the alternative.
-    @MainActor @ViewBuilder
-    func or<V>(_ alternative: V, when condition: () -> Bool) -> _ConditionalContent<Self, V> where V: View {
-        if !condition() { self }
+    ///   - alternative: The view to return if all conditions evaluate to true.
+    ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    /// - Returns: The original view if any condition is false; otherwise, the alternative.
+    @ViewBuilder
+    func or<V>(_ alternative: V, when conditions: Bool...) -> _ConditionalContent<Self, V> where V: View {
+        if conditions.contains(where: { $0 == false }) { self }
         else { alternative }
     }
 }
@@ -201,22 +185,6 @@ public extension Shape {
     /// - Returns: The original shape if any condition is false; otherwise, the alternative.
     func or<S>(_ alternative: S, when conditions: Bool...) -> AnyShape where S: Shape {
         if conditions.contains(where: { $0 == false }) { return AnyShape(self) }
-        else { return AnyShape(alternative) }
-    }
-
-    /// Returns either the current shape or an alternative based on the evaluation of boolean conditions.
-    ///
-    /// This method takes a variable number of boolean conditions and checks them.
-    /// If the condition is false, it returns `self`, the current shape; otherwise, it returns
-    /// the alternative shape. The conditions are evaluated in order, and as soon as a false
-    /// condition is found, the evaluation stops.
-    ///
-    /// - Parameters:
-    ///   - alternative: The shape to return if the condition closure evaluates to true.
-    ///   - condition: A closure that returns a boolean value.
-    /// - Returns: The original shape if the condition is false; otherwise, the alternative.
-    func or<S>(_ alternative: S, when condition: () -> Bool) -> AnyShape where S: Shape {
-        if !condition() { return AnyShape(self) }
         else { return AnyShape(alternative) }
     }
 }
