@@ -87,8 +87,8 @@ public extension Choosable {
     /// condition is found, the evaluation stops.
     ///
     /// - Parameters:
-    ///   - alternative: The object to return if all conditions evaluate to true.
     ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    ///   - alternative: The object to return if all conditions evaluate to true.
     /// - Returns: The original object if any condition is false; otherwise, the alternative.
     func when(_ conditions: Bool..., alternative: () -> Self) -> Self {
         conditions.contains { $0 == false } ? self : alternative()
@@ -148,6 +148,8 @@ extension HorizontalAlignment: Choosable {}
 extension TextAlignment: Choosable {}
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 extension VerticalAlignment: Choosable {}
+@available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
+extension BlendMode: Choosable {}
 
 @available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *)
 public extension View {
@@ -179,8 +181,8 @@ public extension Shape {
     /// condition is found, the evaluation stops.
     ///
     /// - Parameters:
-    ///   - alternative: The shape to return if all conditions evaluate to true.
     ///   - conditions: A variadic parameter that takes a list of boolean conditions.
+    ///   - alternative: The shape to return if all conditions evaluate to true.
     /// - Returns: The original shape if any condition is false; otherwise, the alternative.
     func or<S>(when conditions: Bool..., alternative: () -> S) -> AnyShape where S: Shape {
         if conditions.contains(where: { $0 == false }) { return AnyShape(self) }
