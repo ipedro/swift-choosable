@@ -115,6 +115,14 @@ extension Array: Choosable {}
 extension Set: Choosable {}
 extension Dictionary: Choosable {}
 
+// MARK: - CoreGraphics Types Conformance
+extension CGRect: Choosable {}
+extension CGSize: Choosable {}
+extension CGPoint: Choosable {}
+extension CGAffineTransform: Choosable {}
+extension CGVector: Choosable {}
+extension CGRectEdge: Choosable {}
+
 // MARK: - Obj-C
 
 extension NSObject: Choosable {}
