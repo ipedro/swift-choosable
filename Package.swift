@@ -3,13 +3,12 @@ import PackageDescription
 
 let package = Package(
     name: "swift-choosable",
-    // Prefer Swift 6 language mode for consumers that build with newer toolchains.
-    swiftLanguageVersions: [.v6],
     products: [
         .library(
             name: "Choosable",
             targets: ["Choosable"]),
     ],
+    dependencies: [],
     targets: [
         .target(
             name: "Choosable",
@@ -19,4 +18,7 @@ let package = Package(
             dependencies: ["Choosable"],
             path: "Tests/ChoosableTests"),
     ]
+    ,
+    // Advertise source compatibility with Swift 5 and Swift 6.
+    swiftLanguageVersions: [.v5, .v6]
 )
