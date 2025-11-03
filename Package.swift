@@ -3,8 +3,6 @@ import PackageDescription
 
 let package = Package(
     name: "swift-choosable",
-    // Exclude top-level non-source files so SwiftPM doesn't warn about unhandled files
-    exclude: ["README.md", "LICENSE"],
     products: [
         .library(
             name: "Choosable",
