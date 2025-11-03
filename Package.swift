@@ -17,8 +17,5 @@ let package = Package(
             name: "ChoosableTests",
             dependencies: ["Choosable"],
             path: "Tests/ChoosableTests"),
-    ]
-    ,
-    // Advertise source compatibility with Swift 5 and Swift 6.
-    swiftLanguageVersions: [.v5, .v6]
+    ],
 )
