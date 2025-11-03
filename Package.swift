@@ -11,14 +11,10 @@ let package = Package(
     targets: [
         .target(
             name: "Choosable",
-            path: ".",
-            exclude: ["README.md", "LICENSE"],
-            sources: ["Choosable.swift"]),
+            path: "Sources/Choosable"),
         .testTarget(
             name: "ChoosableTests",
             dependencies: ["Choosable"],
-            path: ".",
-            exclude: ["README.md", "LICENSE"],
-            sources: ["ChoosableTests.swift"]),
+            path: "Tests/ChoosableTests"),
     ]
 )
