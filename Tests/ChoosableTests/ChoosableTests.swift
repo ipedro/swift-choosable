@@ -83,4 +83,17 @@ final class ChoosableTests: XCTestCase {
         XCTAssertFalse(evaluated, "Alternative closure should not be evaluated when conditions are false")
     }
 
+    func testOrAlternativeIsLazy() {
+        let original = 0
+        var evaluated = false
+
+        let result = original.or({
+            evaluated = true
+            return 100
+        }(), when: false)
+
+        XCTAssertEqual(result, original)
+        XCTAssertFalse(evaluated, "or(_:when:) alternative should be lazy via @autoclosure")
+    }
+
 }

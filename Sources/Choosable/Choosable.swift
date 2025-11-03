@@ -77,9 +77,9 @@ public extension Choosable {
     ///   - conditions: A variadic parameter that takes a list of boolean conditions.
     /// - Returns: The original object if any condition is false; otherwise, the alternative.
     @inlinable
-    func or(_ alternative: Self, when conditions: Bool...) -> Self {
-        // Return `alternative` only when all conditions are true.
-        conditions.allSatisfy { $0 } ? alternative : self
+    func or(_ alternative: @autoclosure () -> Self, when conditions: Bool...) -> Self {
+        // Lazily evaluate the alternative only when all conditions are true.
+        conditions.allSatisfy { $0 } ? alternative() : self
     }
 
     /// Returns either the current object or an alternative based on the evaluation of boolean conditions.
