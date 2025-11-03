@@ -23,11 +23,22 @@ This flexibility opens the door to cleaner, more readable conditional logic thro
 
 ### Swift Package Manager
 
-You can add `Choosable` to your project via Swift Package Manager, by adding the following to your `Package.swift` file in the `dependencies` array:
+You can add `Choosable` to your project via Swift Package Manager. This package supports Swift 5.x toolchains and also provides a Swift 6 specific manifest (see notes).
+
+Add the package dependency to your `Package.swift` file:
 
 ```swift
 .package(url: "https://github.com/ipedro/swift-choosable.git", .upToNextMajor(from: "1.0.0"))
 ```
+
+Notes about Swift versions
+
+The repository provides two manifests to support multiple toolchains:
+
+- `Package.swift` (default) — compatible with Swift 5.x toolchains.
+- `Package@swift-6.swift` — used automatically by Swift 6+ toolchains and enables Swift 6 language mode.
+
+This dual-manifest approach keeps the package buildable on older toolchains while enabling Swift 6 features for newer toolchains.
 
 ## Usage
 
@@ -104,14 +115,13 @@ struct AdaptiveTextColor: View {
 }
 
 struct AdaptiveFontStyle: View {
-    @State 
-    private var isHorizontal: Bool = false
+    @State private var isHorizontal: Bool = false
 
     var body: some View {
         Text("Dynamic Font Size")
             .font(.body.or(.largeTitle, when: isHorizontal))
-        }
     }
+}
 ```
 
 ## License
