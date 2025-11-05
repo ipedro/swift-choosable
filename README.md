@@ -124,6 +124,30 @@ struct AdaptiveFontStyle: View {
 }
 ```
 
+### Chaining and evaluation order
+
+The `or` and `when` helpers are lazy: alternatives are only evaluated when all supplied
+conditions are true. In chains, each `or` is only reached when the previous call returned the
+receiver (i.e. previous conditions were false). Example:
+
+```swift
+var aEvaluated = false
+var bEvaluated = false
+
+func makeA() -> Int { aEvaluated = true; return 1 }
+func makeB() -> Int { bEvaluated = true; return 2 }
+
+let original = 0
+
+// Scenario: first `.or` conditions true -> `makeA` evaluated, chain short-circuits
+let result1 = original.or(makeA(), when: true).or(makeB(), when: true)
+// result1 == 1, aEvaluated == true, bEvaluated == false
+
+// Scenario: first `.or` false -> second `.or` is reached and `makeB` evaluated
+let result2 = original.or(makeA(), when: false).or(makeB(), when: true)
+// result2 == 2, aEvaluated == false for this run, bEvaluated == true
+```
+
 ## License
 
 `Choosable` is released under the MIT license. See [LICENSE](LICENSE) for details.

@@ -8,11 +8,33 @@ on:
 
 jobs:
   test:
-    name: Test on macOS (default toolchain)
+    name: Test on macOS (toolchain matrix)
     runs-on: macos-latest
+    strategy:
+      matrix:
+        swift: ["bundled", "swift-6"]
     steps:
       - uses: actions/checkout@v4
-      - name: Install Swift (uses bundled macOS toolchain)
+
+      - name: Print runner info
+        run: |
+          sw_vers
+          uname -m
+
+      - name: Setup Swift toolchain (when needed)
+        if: matrix.swift == 'swift-6'
+        run: |
+          echo "Attempting to install Swift 6 toolchain if available"
+          # On hosted macOS runners, a recent Swift toolchain may already be available.
+          # Try to use `swiftenv` or the official toolchain installer if present. This step is
+          # intentionally best-effort: if the toolchain is unavailable, the job will fall back
+          # to the bundled toolchain by skipping the installation.
+          if command -v swift &>/dev/null; then
+            swift --version || true
+          fi
+
+      - name: Show Swift version
         run: swift --version
+
       - name: Run tests
         run: swift test

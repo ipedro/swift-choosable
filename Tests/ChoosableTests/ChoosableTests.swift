@@ -1,3 +1,161 @@
+import Testing
+@testable import Choosable
+
+// MARK: - Int Tests
+
+@Test("Int or method returns alternative when all conditions are true")
+func testIntOrAllTrue() {
+    let original = 5
+    let alternative = 10
+    #expect(original.or(alternative, when: true, true) == alternative)
+}
+
+@Test("Int or method returns original when any condition is false")
+func testIntOrAnyFalse() {
+    let original = 5
+    let alternative = 10
+    #expect(original.or(alternative, when: true, false) == original)
+}
+
+// MARK: - String Tests
+
+@Test("String or method returns alternative when all conditions are true")
+func testStringOrAllTrue() {
+    let original = "Hello"
+    let alternative = "World"
+    #expect(original.or(alternative, when: true, true) == alternative)
+}
+
+@Test("String or method returns original when any condition is false")
+func testStringOrAnyFalse() {
+    let original = "Hello"
+    let alternative = "World"
+    #expect(original.or(alternative, when: false, true) == original)
+}
+
+// MARK: - Optional Tests
+
+@Test("Optional<Int> or method works correctly")
+func testOptionalIntOr() {
+    let original: Int? = 5
+    let alternative: Int? = 10
+    #expect(original.or(alternative, when: true, true) == alternative)
+    #expect(original.or(alternative, when: false, true) == original)
+}
+
+@Test("Optional nil behavior")
+func testOptionalNilBehavior() {
+    let original: Int? = nil
+    let alternative: Int? = 10
+    #expect(original.or(alternative, when: original == nil) == alternative)
+    #expect(original.or(alternative, when: false) == original)
+}
+
+// MARK: - Collection Tests
+
+@Test("Array or method works correctly")
+func testArrayOr() {
+    let original = [1, 2, 3]
+    let alternative = [4, 5, 6]
+    #expect(original.or(alternative, when: true, true) == alternative)
+    #expect(original.or(alternative, when: true, false) == original)
+}
+
+@Test("Set and Dictionary conformance")
+func testSetAndDictionaryConformance() {
+    let originalSet: Set = [1]
+    let alternativeSet: Set = [2]
+    #expect(originalSet.or(alternativeSet, when: true, true) == alternativeSet)
+    #expect(originalSet.or(alternativeSet, when: false, true) == originalSet)
+
+    let originalDict = ["a": 1]
+    let alternativeDict = ["b": 2]
+    #expect(originalDict.or(alternativeDict, when: true) == alternativeDict)
+    #expect(originalDict.or(alternativeDict, when: false) == originalDict)
+}
+
+// MARK: - NSObject Tests
+
+@Test("NSObject or method works correctly")
+func testNSObjectOr() {
+    class MockNSObject: NSObject {}
+    let original = MockNSObject()
+    let alternative = MockNSObject()
+    #expect(original.or(alternative, when: true) === alternative)
+    #expect(original.or(alternative, when: false) === original)
+}
+
+// MARK: - Lazy Evaluation Tests
+
+@Test("when alternative is lazy evaluated")
+func testWhenAlternativeIsLazy() {
+    let original = 1
+    var evaluated = false
+    let result = original.when(false, alternative: {
+        evaluated = true
+        return 2
+    })
+    #expect(result == original)
+    #expect(!evaluated, "Alternative closure should not be evaluated when conditions are false")
+}
+
+@Test("or alternative is lazy via @autoclosure")
+func testOrAlternativeIsLazy() {
+    let original = 0
+    var evaluated = false
+    let result = original.or({
+        evaluated = true
+        return 100
+    }(), when: false)
+    #expect(result == original)
+    #expect(!evaluated, "or(_:when:) alternative should be lazy via @autoclosure")
+}
+
+@Test("Alternative evaluated when all conditions true")
+func testAlternativeEvaluatedWhenAllConditionsTrue() {
+    let original = 0
+    var evaluated = false
+    func makeAlternative() -> Int {
+        evaluated = true
+        return 7
+    }
+    let result = original.or(makeAlternative(), when: true, true)
+    #expect(result == 7)
+    #expect(evaluated)
+}
+
+// MARK: - Edge Cases
+
+@Test("Zero conditions choose alternative")
+func testZeroConditionsChooseAlternative() {
+    let original = 1
+    let alternative = 2
+    #expect(original.or(alternative) == alternative)
+}
+
+// MARK: - Chaining Tests
+
+@Test("Chaining evaluation scenarios")
+func testChainingEvaluationScenarios() {
+    let original = 0
+    var evalA = false
+    var evalB = false
+    
+    func makeA() -> Int { evalA = true; return 1 }
+    func makeB() -> Int { evalB = true; return 2 }
+
+    // Scenario 1: first alternative chosen, second condition false -> only A evaluated
+    evalA = false; evalB = false
+    _ = original.or(makeA(), when: true).or(makeB(), when: false)
+    #expect(evalA)
+    #expect(!evalB)
+
+    // Scenario 2: first condition false, second true -> only B evaluated
+    evalA = false; evalB = false
+    _ = original.or(makeA(), when: false).or(makeB(), when: true)
+    #expect(!evalA)
+    #expect(evalB)
+}
 import XCTest
 @testable import Choosable
 
