@@ -6,18 +6,17 @@ let package = Package(
     products: [
         .library(
             name: "Choosable",
-            targets: ["Choosable"]),
+            targets: ["Choosable"]
+        )
     ],
-    dependencies: [],
     targets: [
         .target(
-            name: "Choosable",
-            path: "Sources/Choosable"),
+            name: "Choosable"
+        ),
         .testTarget(
             name: "ChoosableTests",
-            dependencies: ["Choosable"],
-            path: "Tests/ChoosableTests"),
+            dependencies: ["Choosable"]
+        )
     ],
-    // When built with Swift 6+ toolchains, enable Swift 6 language mode.
     swiftLanguageModes: [.v6]
 )

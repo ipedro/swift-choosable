@@ -7,11 +7,11 @@ let package = Package(
         .library(
             name: "Choosable",
             targets: ["Choosable"]
-        ),
+        )
     ],
     targets: [
         .target(
-            name: "Choosable",
+            name: "Choosable"
         ),
         .testTarget(
             name: "ChoosableTests",
