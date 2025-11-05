@@ -6,16 +6,16 @@ let package = Package(
     products: [
         .library(
             name: "Choosable",
-            targets: ["Choosable"]),
+            targets: ["Choosable"]
+        ),
     ],
-    dependencies: [],
     targets: [
         .target(
             name: "Choosable",
-            path: "Sources/Choosable"),
+        ),
         .testTarget(
             name: "ChoosableTests",
-            dependencies: ["Choosable"],
-            path: "Tests/ChoosableTests"),
-    ],
+            dependencies: ["Choosable"]
+        )
+    ]
 )
